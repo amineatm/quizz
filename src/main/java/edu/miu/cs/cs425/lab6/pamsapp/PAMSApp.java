@@ -8,7 +8,7 @@ public class PAMSApp {
         System.out.println("Hello! Welcome to the Patients-Appointments Management App!");
         System.out.println("Starting the application tasks...");
         System.out.println("Task 1: JSON Array of All Patients Data, sorted by Age in descending order.");
-        System.out.println("__________________________________________________________________________");
+        System.out.println("____________________________________________________________________________________________________________________________________________________");
         // Process data
         var patientsService = new PatientsService();
         var patients = patientsService.getPatientsSortedByAgeDesc();
