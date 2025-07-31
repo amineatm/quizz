@@ -2,9 +2,8 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -33,8 +32,8 @@ jobs:
     - name: Create GitHub Release and upload JAR
       uses: softprops/action-gh-release@v2
       with:
-        name: "PAMS CLI v1.1"
-        tag_name: v1.1
+        name: "PAMS CLI ${{ github.ref_name }}"
+        tag_name: ${{ github.ref_name }}
         files: target/*.jar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
