@@ -1,9 +1,18 @@
-name: Java CI with Maven
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build PAMS App via CI with Maven
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -12,28 +21,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    - name: Set up JDK 21
+    - name: Set up JDK 24
       uses: actions/setup-java@v4
       with:
-        java-version: '21'
+        java-version: '24'
         distribution: 'temurin'
         cache: maven
-
     - name: Build with Maven
-      run: mvn clean package
-
-    - name: Upload JAR artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: pams-cli-app
-        path: target/*.jar
-
-    - name: Create GitHub Release and upload JAR
-      uses: softprops/action-gh-release@v2
-      with:
-        name: "PAMS CLI ${{ github.ref_name }}"
-        tag_name: ${{ github.ref_name }}
-        files: target/*.jar
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: mvn -B package --file pom.xml
